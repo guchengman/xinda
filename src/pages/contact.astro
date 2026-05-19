@@ -138,11 +138,17 @@ import { COMPANY, BRANCHES } from '../consts/company';
       }
 
       try {
-        // 提交到 Cloudflare Worker (后续部署时配置实际地址)
-        // const resp = await fetch('https://contact-form.xinda56.workers.dev', {
-        //   method: 'POST',
-        //   body: JSON.stringify(data),
-        // });
+        // 提交到 Cloudflare Worker (部署后替换为实际 Worker 地址)
+        const resp = await fetch('https://contact-form.xinda56.workers.dev', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+
+        if (!resp.ok) {
+          throw new Error('提交失败');
+        }
+
         form.classList.add('hidden');
         successMsg.classList.remove('hidden');
       } catch (err) {
