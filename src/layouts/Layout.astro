@@ -1,0 +1,59 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import MobileBottomNav from '../components/MobileBottomNav.astro';
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = '新大物流 — 赣州↔广东专线 · 当天发货 · 次日到达', description = '赣州新大物流有限公司，专业从事赣州至广东（广州、佛山、中山、顺德）往返专线运输，自有车队，今天发货明天到达。' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="format-detection" content="telephone=yes" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+
+    <!-- 预连接字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Google Fonts: Noto Sans SC + Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- 结构化数据 -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "赣州新大物流有限公司",
+      "description": "专业从事赣州至广东往返专线运输",
+      "url": "https://www.xinda56.cn",
+      "telephone": "18179789806",
+      "areaServed": ["赣州", "南康", "广州", "佛山", "中山", "顺德"],
+    })}>
+    </script>
+  </head>
+  <body class="flex flex-col min-h-screen">
+    <Header />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+    <MobileBottomNav />
+
+    <!-- 移动端底部固定栏占位，防止内容被遮挡 -->
+    <div class="h-16 md:h-0" aria-hidden="true"></div>
+  </body>
+</html>

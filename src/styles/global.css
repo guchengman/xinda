@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-50: #e8f4ff;
+  --color-brand-100: #c7e2fc;
+  --color-brand-200: #8fbcf9;
+  --color-brand-300: #5896f5;
+  --color-brand-400: #3990FF;
+  --color-brand-500: #1a7aef;
+  --color-brand-600: #096BDE;
+  --color-brand-700: #0755b2;
+  --color-brand-800: #053f85;
+  --color-brand-900: #032959;
+
+  --color-surface-50: #ffffff;
+  --color-surface-100: #F5F7FA;
+  --color-surface-200: #e5e6eb;
+  --color-surface-300: #c9cdd4;
+  --color-surface-400: #86909c;
+  --color-surface-500: #4e5969;
+  --color-surface-600: #1D2129;
+  --color-surface-700: #161b22;
+  --color-surface-800: #0d1117;
+  --color-surface-900: #06090c;
+
+  --color-success: #00B42A;
+  --color-warning: #FF7D00;
+  --color-danger: #F53F3F;
+
+  --font-sans: 'Noto Sans SC', 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* 基础样式 */
+html {
+  scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  @apply text-surface-800 bg-white antialiased;
+  font-family: var(--font-sans);
+}
+
+/* 触摸优化 */
+@media (hover: none) and (pointer: coarse) {
+  button, a, [role="button"] {
+    min-height: 44px;
+  }
+}
+
+/* 动画 */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes count-up {
+  from { opacity: 0; transform: scale(0.5); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+}
+
+.animate-count-up {
+  animation: count-up 0.5s ease-out forwards;
+}
