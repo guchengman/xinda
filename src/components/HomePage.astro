@@ -3,10 +3,28 @@ import { COMPANY, ADVANTAGES, STATS, SERVICES } from '../consts/company';
 ---
 
 <!-- Hero 区域 -->
-<section class="relative min-h-[70vh] md:min-h-screen flex items-center bg-brand-900 overflow-hidden">
-  <!-- 背景装饰 -->
-  <div class="absolute inset-0 bg-gradient-to-br from-brand-700/40 to-brand-900"></div>
-  <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 1px 1px, white 1px, transparent 0); background-size: 40px 40px;"></div>
+<section class="relative min-h-[70vh] md:min-h-screen flex items-center overflow-hidden bg-brand-900">
+  <!-- 背景图片轮播 -->
+  <div id="hero-slideshow" class="absolute inset-0">
+    <div class="hero-slide active" style="background-image: url('/images/logistics-warehouse.jpg');"></div>
+    <div class="hero-slide" style="background-image: url('/images/truck-delivery.jpg');"></div>
+    <div class="hero-slide" style="background-image: url('/images/logistics-operation.jpg');"></div>
+    <div class="hero-slide" style="background-image: url('/images/shipping-containers.jpg');"></div>
+    <div class="hero-slide" style="background-image: url('/images/warehouse-forklift.jpg');"></div>
+    <div class="hero-slide" style="background-image: url('/images/business-logistics.jpg');"></div>
+  </div>
+  <!-- 背景深底色（Section 已有 bg-brand-900，图片加载前显示） -->
+
+  <!-- 左右切换按钮 -->
+  <button class="hero-arrow hero-arrow--left" id="hero-prev" aria-label="上一张">
+    <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+  </button>
+  <button class="hero-arrow hero-arrow--right" id="hero-next" aria-label="下一张">
+    <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+  </button>
+
+  <!-- 圆点指示器 -->
+  <div class="hero-dots" id="hero-dots"></div>
 
   <!-- 内容 -->
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32 w-full">
@@ -16,13 +34,13 @@ import { COMPANY, ADVANTAGES, STATS, SERVICES } from '../consts/company';
         赣州↔广东专线 · 天天发车
       </div>
 
-      <h1 class="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-4">
+      <h1 class="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-4" style="text-shadow: 0 2px 16px rgba(0,0,0,0.6);">
         {COMPANY.name}
       </h1>
-      <p class="text-lg sm:text-xl md:text-2xl text-white/90 font-semibold mb-2" style="font-family: 'Noto Sans SC', serif;">
+      <p class="text-lg sm:text-xl md:text-2xl text-white font-semibold mb-2" style="font-family: 'Noto Sans SC', serif; text-shadow: 0 2px 12px rgba(0,0,0,0.55);">
         "{COMPANY.slogan}"
       </p>
-      <p class="text-base md:text-xl text-white/70 mb-8 md:mb-10">
+      <p class="text-base md:text-xl text-white/90 mb-8 md:mb-10" style="text-shadow: 0 1px 10px rgba(0,0,0,0.5);">
         {COMPANY.desc}
       </p>
 
@@ -148,6 +166,40 @@ import { COMPANY, ADVANTAGES, STATS, SERVICES } from '../consts/company';
     </div>
   </div>
 </section>
+
+<script>
+const slideshow = document.getElementById('hero-slideshow');
+const slides = slideshow.querySelectorAll('.hero-slide');
+const total = slides.length;
+let current = 0;
+let timer = null;
+
+function goTo(i) {
+  slides[current].classList.remove('active');
+  slides[i].classList.add('active');
+  current = i;
+  document.querySelectorAll('.hero-dot').forEach((d, idx) => d.classList.toggle('active', idx === current));
+  resetTimer();
+}
+
+function next() { goTo((current + 1) % total); }
+function prev() { goTo((current - 1 + total) % total); }
+function resetTimer() { clearInterval(timer); timer = setInterval(next, 6000); }
+
+// 生成指示器圆点
+const dotsEl = document.getElementById('hero-dots');
+for (let i = 0; i < total; i++) {
+  const dot = document.createElement('button');
+  dot.className = 'hero-dot' + (i === 0 ? ' active' : '');
+  dot.setAttribute('aria-label', `切换到第${i+1}张`);
+  dot.addEventListener('click', () => goTo(i));
+  dotsEl.appendChild(dot);
+}
+
+document.getElementById('hero-next').addEventListener('click', next);
+document.getElementById('hero-prev').addEventListener('click', prev);
+resetTimer();
+</script>
 
 <!-- 信任与CTA -->
 <section class="py-14 md:py-20 bg-brand-600">

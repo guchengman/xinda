@@ -66,3 +66,81 @@ body {
 .animate-count-up {
   animation: count-up 0.5s ease-out forwards;
 }
+
+/* Hero slideshow */
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+}
+.hero-slide.active {
+  opacity: 1;
+}
+
+/* 轮播左右按钮 */
+.hero-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.8);
+  border: 1px solid rgba(255,255,255,0.15);
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  transition: all 0.25s;
+}
+.hero-arrow:hover {
+  background: rgba(255,255,255,0.25);
+  color: #fff;
+}
+.hero-arrow:active {
+  transform: translateY(-50%) scale(0.92);
+}
+.hero-arrow--left { left: 12px; }
+.hero-arrow--right { right: 12px; }
+@media (min-width: 768px) {
+  .hero-arrow { width: 52px; height: 52px; }
+  .hero-arrow--left { left: 24px; }
+  .hero-arrow--right { right: 24px; }
+}
+
+/* 轮播指示器 */
+.hero-dots {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  gap: 8px;
+}
+.hero-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: rgba(255,255,255,0.3);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  padding: 0;
+}
+.hero-dot.active {
+  background: #fff;
+  width: 24px;
+  border-radius: 4px;
+}
+@media (min-width: 768px) {
+  .hero-dots { bottom: 32px; }
+  .hero-dot { width: 10px; height: 10px; }
+  .hero-dot.active { width: 28px; }
+}
