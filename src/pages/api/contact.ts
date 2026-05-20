@@ -1,8 +1,8 @@
-// Cloudflare Pages Function — 联系表单提交 (生产环境)
-// 本地开发使用 src/pages/api/contact.ts
-export async function onRequest(context) {
-  const { request, env } = context;
+import type { APIRoute } from 'astro';
 
+export const prerender = false;
+
+export const POST: APIRoute = async ({ request, locals }) => {
   if (request.method === 'OPTIONS') {
     return new Response(null, {
       headers: {
@@ -12,10 +12,6 @@ export async function onRequest(context) {
         'Access-Control-Max-Age': '86400',
       },
     });
-  }
-
-  if (request.method !== 'POST') {
-    return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405 });
   }
 
   try {
@@ -39,32 +35,38 @@ export async function onRequest(context) {
       `来源: 新大物流官网联系表单`,
     ].join('\n');
 
+    // Cloudflare runtime (production) → import.meta.env (local dev)
+    const env = (locals as any).runtime?.env || import.meta.env;
+    const RESEND_API_KEY = env.RESEND_API_KEY;
+    const EMAIL_TO = env.EMAIL_TO || 'zengxiao@xinda56.cn';
+    const EMAIL_FROM = env.EMAIL_FROM || 'onboarding@resend.dev';
+
     let emailResult = { sent: false, reason: 'RESEND_API_KEY not configured' };
 
-    if (env.RESEND_API_KEY) {
+    if (RESEND_API_KEY) {
       try {
         const res = await fetch('https://api.resend.com/emails', {
           method: 'POST',
           headers: {
-            'Authorization': `Bearer ${env.RESEND_API_KEY}`,
+            'Authorization': `Bearer ${RESEND_API_KEY}`,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            from: env.EMAIL_FROM || 'onboarding@resend.dev',
-            to: [env.EMAIL_TO || 'zengxiao@xinda56.cn'],
+            from: EMAIL_FROM,
+            to: [EMAIL_TO],
             subject: `新询价 - ${name} - ${phone}`,
             text,
           }),
         });
 
         const resBody = await res.text();
-        emailResult = { sent: res.ok, status: res.status, body: resBody, to: env.EMAIL_TO || 'zengxiao@xinda56.cn', from: env.EMAIL_FROM || 'onboarding@resend.dev' };
+        emailResult = { sent: res.ok, status: res.status, body: resBody, to: EMAIL_TO, from: EMAIL_FROM };
 
         if (!res.ok) {
           console.error('Resend API error:', res.status, resBody);
         }
       } catch (fetchErr) {
-        emailResult = { sent: false, error: fetchErr.message };
+        emailResult = { sent: false, error: (fetchErr as Error).message };
         console.error('Resend fetch error:', fetchErr);
       }
     }
@@ -75,8 +77,8 @@ export async function onRequest(context) {
     );
   } catch (err) {
     return new Response(
-      JSON.stringify({ error: '服务器错误，请直接致电我们', detail: err.message }),
+      JSON.stringify({ error: '服务器错误，请直接致电我们', detail: (err as Error).message }),
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }
-}
+};
