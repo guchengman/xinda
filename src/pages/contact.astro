@@ -139,7 +139,7 @@ import { COMPANY, BRANCHES } from '../consts/company';
 
       try {
         // 提交到 Cloudflare Worker (部署后替换为实际 Worker 地址)
-        const resp = await fetch('https://contact-form.xinda56.workers.dev', {
+        const resp = await fetch('/api/contact', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data),

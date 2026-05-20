@@ -4,5 +4,59 @@ import HomePage from '../components/HomePage.astro';
 ---
 
 <Layout>
+  <!-- 结构化数据：FAQPage + BreadcrumbList -->
+  <script type="application/ld+json" set:html={JSON.stringify([{
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "新大物流提供哪些物流服务？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "新大物流提供赣州至广东往返整车运输、零担配送、仓储服务以及南康家具专业运输服务，覆盖广州、佛山、中山、顺德等城市，自有车队天天发车。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "赣州到广州物流要多久？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "赣州到广州专线当天发货、次日到达。整车运输当天装车发运，次日上午抵达广州；零担配送当天上站发车，次日到达广州分拨中心后安排派送。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "新大物流有仓储服务吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "有。新大物流拥有5600㎡+专业仓库，提供24小时仓储管理、中转配送一站式服务，支持企业、工厂货物全天候托管。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "新大物流的运输范围覆盖哪些城市？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "新大物流在赣州、南康、广州、佛山、中山、顺德设有直营网点，六城直达，往返天天发车，辐射珠三角及赣南地区。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "新大物流可以上门取货吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "可以。接到客户委托后1小时内上门取货，无需客户自行送货到网点，提供上门取货、专业包装、送货入户一站式服务。"
+        }
+      }
+    ]
+  }, {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "首页", "item": "https://www.xinda56.cn" }
+    ]
+  }])}>
+  </script>
   <HomePage />
 </Layout>

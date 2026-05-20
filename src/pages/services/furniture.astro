@@ -176,8 +176,16 @@ import { COMPANY } from '../../consts/company';
     </div>
   </section>
 
-  <!-- FAQ 结构化数据 -->
-  <script type="application/ld+json" set:html={JSON.stringify({
+  <!-- 结构化数据：BreadcrumbList + FAQPage -->
+  <script type="application/ld+json" set:html={JSON.stringify([{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "首页", "item": "https://www.xinda56.cn" },
+      { "@type": "ListItem", "position": 2, "name": "服务范围", "item": "https://www.xinda56.cn/services" },
+      { "@type": "ListItem", "position": 3, "name": "家具运输", "item": "https://www.xinda56.cn/services/furniture" }
+    ]
+  }, {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
@@ -214,6 +222,6 @@ import { COMPANY } from '../../consts/company';
         }
       }
     ]
-  })}>
+  }])}>
   </script>
 </Layout>

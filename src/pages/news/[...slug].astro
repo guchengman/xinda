@@ -22,6 +22,41 @@ const hotline = companyInfo.COMPANY.hotline;
 ---
 
 <Layout title={`${entry.data.title} — 新大物流`} description={entry.data.description || `${entry.data.title} — 赣州新大物流有限公司`}>
+  <!-- 结构化数据：Article -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": entry.data.title,
+    "description": entry.data.description,
+    "datePublished": entry.data.pubDate.toISOString(),
+    "dateModified": entry.data.pubDate.toISOString(),
+    "author": {
+      "@type": "Person",
+      "name": entry.data.author || "新大物流"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "赣州新大物流有限公司",
+      "url": "https://www.xinda56.cn"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://www.xinda56.cn/news/${entry.id}`
+    },
+    "image": "https://www.xinda56.cn/images/logistics-warehouse.jpg"
+  })}>
+  </script>
+  <!-- 结构化数据：BreadcrumbList -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "首页", "item": "https://www.xinda56.cn" },
+      { "@type": "ListItem", "position": 2, "name": "新闻中心", "item": "https://www.xinda56.cn/news" },
+      { "@type": "ListItem", "position": 3, "name": entry.data.title, "item": `https://www.xinda56.cn/news/${entry.id}` }
+    ]
+  })}>
+  </script>
   <article>
     <!-- 文章头部 -->
     <section class="relative pt-20 md:pt-24 pb-12 md:pb-16 bg-brand-900 overflow-hidden">

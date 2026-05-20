@@ -142,8 +142,35 @@ import { SERVICES, VALUE_ADDED_SERVICES, COMPANY } from '../consts/company';
     </div>
   </section>
 
-  <!-- FAQ 结构化数据 -->
-  <script type="application/ld+json" set:html={JSON.stringify({
+  <!-- 结构化数据：Service + BreadcrumbList + FAQPage -->
+  <script type="application/ld+json" set:html={JSON.stringify([{
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "赣州到广东物流专线",
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": "赣州新大物流有限公司"
+    },
+    "areaServed": ["赣州", "南康", "广州", "佛山", "中山", "顺德"],
+    "description": "赣州至广东往返整车运输、零担配送、仓储服务及南康家具专业运输，自有车队天天发车，今天发货明天到达。",
+    "offers": {
+      "@type": "AggregateOffer",
+      "offerCount": "4",
+      "offers": [
+        { "@type": "Offer", "name": "整车运输", "description": "赣州↔广东往返整车运输，点对点直达，中途不中转" },
+        { "@type": "Offer", "name": "零担配送", "description": "灵活高效的零担物流服务，1小时内上门取货" },
+        { "@type": "Offer", "name": "仓储服务", "description": "5600㎡+专业仓库，24小时仓储中转" },
+        { "@type": "Offer", "name": "家具运输", "description": "南康↔广东家具专线，专业包装、送货入户" }
+      ]
+    }
+  }, {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "首页", "item": "https://www.xinda56.cn" },
+      { "@type": "ListItem", "position": 2, "name": "服务范围", "item": "https://www.xinda56.cn/services" }
+    ]
+  }, {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
@@ -196,6 +223,6 @@ import { SERVICES, VALUE_ADDED_SERVICES, COMPANY } from '../consts/company';
         }
       }
     ]
-  })}>
+  }])}>
   </script>
 </Layout>
