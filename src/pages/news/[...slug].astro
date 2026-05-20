@@ -21,7 +21,7 @@ const companyInfo = await import('../../consts/company');
 const hotline = companyInfo.COMPANY.hotline;
 ---
 
-<Layout title={`${entry.data.title} — 新大物流`}>
+<Layout title={`${entry.data.title} — 新大物流`} description={entry.data.description || `${entry.data.title} — 赣州新大物流有限公司`}>
   <article>
     <!-- 文章头部 -->
     <section class="relative pt-20 md:pt-24 pb-12 md:pb-16 bg-brand-900 overflow-hidden">

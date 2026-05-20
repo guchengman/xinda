@@ -25,6 +25,25 @@ const { title = '新大物流 — 赣州↔广东专线 · 当天发货 · 次�
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={`https://www.xinda56.cn${Astro.url.pathname}`} />
+    <meta property="og:locale" content="zh_CN" />
+
+    <!-- 百度站长验证（替换为实际验证码） -->
+    <meta name="baidu-site-verification" content="请替换为百度站长验证码" />
+
+    <!-- 百度统计（替换为实际统计 ID） -->
+    <script>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?请替换为百度统计ID";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={`https://www.xinda56.cn${Astro.url.pathname}`} />
 
     <!-- 预连接字体 -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -38,10 +57,28 @@ const { title = '新大物流 — 赣州↔广东专线 · 当天发货 · 次�
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
       "name": "赣州新大物流有限公司",
-      "description": "专业从事赣州至广东往返专线运输",
+      "alternateName": "新大物流",
+      "description": "专业从事赣州至广东往返专线运输，自有车队，今天发货明天到达",
       "url": "https://www.xinda56.cn",
       "telephone": "15717088088",
+      "email": "zengxiao@xinda56.cn",
+      "image": "https://www.xinda56.cn/images/logistics-warehouse.jpg",
+      "priceRange": "¥¥",
       "areaServed": ["赣州", "南康", "广州", "佛山", "中山", "顺德"],
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "赣州经济技术开发区犹江路",
+        "addressLocality": "赣州市",
+        "addressRegion": "江西省",
+        "addressCountry": "CN"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        "opens": "08:00",
+        "closes": "18:00"
+      },
+      "sameAs": []
     })}>
     </script>
   </head>

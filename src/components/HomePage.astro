@@ -6,12 +6,12 @@ import { COMPANY, ADVANTAGES, STATS, SERVICES } from '../consts/company';
 <section class="relative min-h-[70vh] md:min-h-screen flex items-center overflow-hidden bg-brand-900">
   <!-- 背景图片轮播 -->
   <div id="hero-slideshow" class="absolute inset-0">
-    <div class="hero-slide active" style="background-image: url('/images/logistics-warehouse.jpg');"></div>
-    <div class="hero-slide" style="background-image: url('/images/truck-delivery.jpg');"></div>
-    <div class="hero-slide" style="background-image: url('/images/logistics-operation.jpg');"></div>
-    <div class="hero-slide" style="background-image: url('/images/shipping-containers.jpg');"></div>
-    <div class="hero-slide" style="background-image: url('/images/warehouse-forklift.jpg');"></div>
-    <div class="hero-slide" style="background-image: url('/images/business-logistics.jpg');"></div>
+    <div class="hero-slide active" role="img" aria-label="新大物流仓储中心" style="background-image: url('/images/logistics-warehouse.jpg');"></div>
+    <div class="hero-slide" role="img" aria-label="新大物流货运车队配送服务" style="background-image: url('/images/truck-delivery.jpg');"></div>
+    <div class="hero-slide" role="img" aria-label="新大物流员工操作货物装卸" style="background-image: url('/images/logistics-operation.jpg');"></div>
+    <div class="hero-slide" role="img" aria-label="新大物流集装箱运输服务" style="background-image: url('/images/shipping-containers.jpg');"></div>
+    <div class="hero-slide" role="img" aria-label="新大物流叉车仓库作业" style="background-image: url('/images/warehouse-forklift.jpg');"></div>
+    <div class="hero-slide" role="img" aria-label="新大物流商务团队服务客户" style="background-image: url('/images/business-logistics.jpg');"></div>
   </div>
   <!-- 背景深底色（Section 已有 bg-brand-900，图片加载前显示） -->
 
@@ -114,7 +114,7 @@ import { COMPANY, ADVANTAGES, STATS, SERVICES } from '../consts/company';
       <p class="text-surface-500 max-w-2xl mx-auto text-sm md:text-base">全方位物流服务，满足您的多样化需求</p>
     </div>
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-      {SERVICES.map((service) => (
+      {SERVICES.map((service, si) => (
         <div class="group rounded-2xl border border-surface-200 overflow-hidden hover:shadow-lg transition-all">
           <div class="h-2 bg-brand-600"></div>
           <div class="p-6 md:p-8">
@@ -128,7 +128,7 @@ import { COMPANY, ADVANTAGES, STATS, SERVICES } from '../consts/company';
                 </li>
               ))}
             </ul>
-            <a href="/services" class="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-brand-600 hover:text-brand-700 transition-colors group/link">
+            <a href={si === 3 ? '/services/furniture' : '/services'} class="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-brand-600 hover:text-brand-700 transition-colors group/link">
               了解详情
               <svg class="w-4 h-4 group-hover/link:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
             </a>

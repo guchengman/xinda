@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import { SERVICES, VALUE_ADDED_SERVICES, COMPANY } from '../consts/company';
 ---
 
-<Layout title="服务范围 — 新大物流">
+<Layout title="赣州到广东物流专线 — 整车·零担·仓储·家具运输 — 新大物流" description="新大物流提供赣州至广东（广州、佛山、中山、顺德）往返整车运输、零担配送、仓储服务及南康家具运输专线，自有车队天天发车，今天发货明天到达。">
   <!-- Hero -->
   <section class="relative pt-20 md:pt-24 pb-12 md:pb-16 bg-brand-900 overflow-hidden">
     <div class="absolute inset-0 bg-gradient-to-br from-brand-700/40 to-brand-900"></div>
@@ -141,4 +141,61 @@ import { SERVICES, VALUE_ADDED_SERVICES, COMPANY } from '../consts/company';
       </a>
     </div>
   </section>
+
+  <!-- FAQ 结构化数据 -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "赣州到广州物流要多久？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "新大物流赣州到广州专线当天发货、次日到达。整车运输当天装车发运，次日上午抵达广州；零担配送当天上站发车，次日到达广州分拨中心后安排派送。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "南康家具发广东有什么物流专线？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "新大物流设有南康到广东家具运输专线，覆盖广州、佛山、中山、顺德等城市，提供EPE珍珠棉专业包装、护角加固、拆装服务、送货入户一站式服务，南康家具产业集散地直提直送。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "可以上门取货吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "可以。新大物流提供1小时内上门取货服务，接到客户委托后安排人员上门提货，无需客户自行送货到网点。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "货物损坏怎么理赔？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "新大物流所有货物由中国太平洋保险承保，如运输过程中发生货物损坏，可按购买保险额度按价理赔。建议贵重货物购买足额保险。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "支持代收货款吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "支持。新大物流提供灵活的结算方式，包括现结、到付、月结，以及代收货款、异地结算服务，方便客户根据实际情况选择。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "节假日可以发货吗？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "可以。新大物流24小时服务，节假日照常上班，全年无休为客户提供运输服务。"
+        }
+      }
+    ]
+  })}>
+  </script>
 </Layout>
