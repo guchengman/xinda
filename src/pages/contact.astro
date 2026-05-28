@@ -123,7 +123,7 @@ import { COMPANY, BRANCHES } from '../consts/company';
 </Layout>
 
 <script>
-  const form = document.getElementById('contact-form');
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
   const successMsg = document.getElementById('form-success');
   if (form && successMsg) {
     form.addEventListener('submit', async (e) => {

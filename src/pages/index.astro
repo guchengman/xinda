@@ -5,7 +5,7 @@ import HomePage from '../components/HomePage.astro';
 
 <Layout>
   <!-- 结构化数据：FAQPage + BreadcrumbList -->
-  <script type="application/ld+json" set:html={JSON.stringify([{
+  <script is:inline type="application/ld+json" set:html={JSON.stringify([{
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [

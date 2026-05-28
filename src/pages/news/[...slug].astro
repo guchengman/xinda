@@ -1,10 +1,11 @@
 ---
+import type { CollectionEntry } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
   const newsEntries = await getCollection('news');
-  return newsEntries.map((entry) => ({
+  return newsEntries.map((entry: CollectionEntry<'news'>) => ({
     params: { slug: entry.id },
     props: { entry },
   }));
@@ -12,10 +13,10 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const allNews = await getCollection('news');
+const allNews: CollectionEntry<'news'>[] = await getCollection('news');
 const otherNews = allNews
-  .filter(n => n.id !== entry.id)
-  .sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
+  .filter((n: CollectionEntry<'news'>) => n.id !== entry.id)
+  .sort((a: CollectionEntry<'news'>, b: CollectionEntry<'news'>) => b.data.pubDate.getTime() - a.data.pubDate.getTime())
   .slice(0, 3);
 const companyInfo = await import('../../consts/company');
 const hotline = companyInfo.COMPANY.hotline;
@@ -23,7 +24,7 @@ const hotline = companyInfo.COMPANY.hotline;
 
 <Layout title={`${entry.data.title} — 新大物流`} description={entry.data.description || `${entry.data.title} — 赣州新大物流有限公司`}>
   <!-- 结构化数据：Article -->
-  <script type="application/ld+json" set:html={JSON.stringify({
+  <script is:inline type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": entry.data.title,
@@ -47,7 +48,7 @@ const hotline = companyInfo.COMPANY.hotline;
   })}>
   </script>
   <!-- 结构化数据：BreadcrumbList -->
-  <script type="application/ld+json" set:html={JSON.stringify({
+  <script is:inline type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [

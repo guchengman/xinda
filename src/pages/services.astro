@@ -1,6 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { SERVICES, VALUE_ADDED_SERVICES, COMPANY } from '../consts/company';
+
+const services = [...SERVICES];
+const valueAddedServices = [...VALUE_ADDED_SERVICES];
 ---
 
 <Layout title="赣州到广东物流专线 — 整车·零担·仓储·家具运输 — 新大物流" description="新大物流提供赣州至广东（广州、佛山、中山、顺德）往返整车运输、零担配送、仓储服务及南康家具运输专线，自有车队天天发车，今天发货明天到达。">
@@ -23,7 +26,7 @@ import { SERVICES, VALUE_ADDED_SERVICES, COMPANY } from '../consts/company';
         </p>
       </div>
       <div class="space-y-10 md:space-y-16">
-        {SERVICES.map((service, i) => (
+        {services.map((service, i) => (
           <div class={`grid md:grid-cols-2 gap-8 md:gap-14 items-center ${i % 2 === 1 ? 'md:flex-row-reverse' : ''}`}>
             <div class={`${i % 2 === 1 ? 'md:order-1' : ''}`}>
               <h3 class="text-xl md:text-3xl font-bold text-surface-800 mb-4">{service.title}</h3>
@@ -94,7 +97,7 @@ import { SERVICES, VALUE_ADDED_SERVICES, COMPANY } from '../consts/company';
         <p class="text-surface-500 text-sm md:text-base">更多贴心服务，让您的货物运输更省心</p>
       </div>
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
-        {VALUE_ADDED_SERVICES.map((item) => (
+        {valueAddedServices.map((item) => (
           <div class="text-center p-5 md:p-6 rounded-xl bg-surface-50 border border-surface-100 hover:border-brand-200 hover:shadow-sm transition-all">
             <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-brand-50 flex items-center justify-center mx-auto mb-3">
               <svg class="w-5 h-5 md:w-6 md:h-6 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
@@ -143,7 +146,7 @@ import { SERVICES, VALUE_ADDED_SERVICES, COMPANY } from '../consts/company';
   </section>
 
   <!-- 结构化数据：Service + BreadcrumbList + FAQPage -->
-  <script type="application/ld+json" set:html={JSON.stringify([{
+  <script is:inline type="application/ld+json" set:html={JSON.stringify([{
     "@context": "https://schema.org",
     "@type": "Service",
     "name": "赣州到广东物流专线",

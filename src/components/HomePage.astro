@@ -168,13 +168,13 @@ import { COMPANY, ADVANTAGES, STATS, SERVICES } from '../consts/company';
 </section>
 
 <script>
-const slideshow = document.getElementById('hero-slideshow');
+const slideshow = document.getElementById('hero-slideshow')!;
 const slides = slideshow.querySelectorAll('.hero-slide');
 const total = slides.length;
 let current = 0;
-let timer = null;
+let timer: ReturnType<typeof setInterval> | null = null;
 
-function goTo(i) {
+function goTo(i: number) {
   slides[current].classList.remove('active');
   slides[i].classList.add('active');
   current = i;
@@ -184,10 +184,10 @@ function goTo(i) {
 
 function next() { goTo((current + 1) % total); }
 function prev() { goTo((current - 1 + total) % total); }
-function resetTimer() { clearInterval(timer); timer = setInterval(next, 6000); }
+function resetTimer() { if (timer !== null) clearInterval(timer); timer = setInterval(next, 6000); }
 
 // 生成指示器圆点
-const dotsEl = document.getElementById('hero-dots');
+const dotsEl = document.getElementById('hero-dots')!;
 for (let i = 0; i < total; i++) {
   const dot = document.createElement('button');
   dot.className = 'hero-dot' + (i === 0 ? ' active' : '');
@@ -196,8 +196,8 @@ for (let i = 0; i < total; i++) {
   dotsEl.appendChild(dot);
 }
 
-document.getElementById('hero-next').addEventListener('click', next);
-document.getElementById('hero-prev').addEventListener('click', prev);
+document.getElementById('hero-next')!.addEventListener('click', next);
+document.getElementById('hero-prev')!.addEventListener('click', prev);
 resetTimer();
 </script>
 
