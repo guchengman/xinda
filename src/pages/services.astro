@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { SERVICES, VALUE_ADDED_SERVICES, COMPANY } from '../consts/company';
+import { LINES } from '../consts/lines';
 
 const services = [...SERVICES];
 const valueAddedServices = [...VALUE_ADDED_SERVICES];
@@ -52,6 +53,24 @@ const valueAddedServices = [...VALUE_ADDED_SERVICES];
               </div>
             </div>
           </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 直达专线线路 -->
+  <section class="py-14 md:py-20 bg-surface-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10">
+        <h2 class="text-2xl md:text-4xl font-bold text-surface-800 mb-4">直达专线线路</h2>
+        <p class="text-surface-500 text-sm md:text-base">点击线路可查看时效、发车频次、起终点网点与常见问题</p>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {LINES.map((l) => (
+          <a href={`/lines/${l.slug}/`} class="block rounded-xl bg-white border border-surface-100 p-5 hover:border-brand-300 hover:shadow-sm transition-all">
+            <p class="font-semibold text-surface-800 mb-1">{l.title}</p>
+            <p class="text-xs text-surface-400">当天发货 · 次日到达</p>
+          </a>
         ))}
       </div>
     </div>
