@@ -3,13 +3,26 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import MobileBottomNav from '../components/MobileBottomNav.astro';
+import { BRANCHES } from '../consts/company';
+
+// 各直营网点 → schema.org department 结构化数据（NAP 与联系页完全一致）
+const departments = BRANCHES.map((b) => ({
+  "@type": "LocalBusiness",
+  "name": `新大物流（${b.city}营业点）`,
+  "telephone": b.phone,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": b.address,
+    "addressCountry": "CN",
+  },
+}));
 
 export interface Props {
   title?: string;
   description?: string;
 }
 
-const { title = '新大物流 — 赣州↔广东专线 · 当天发货 · 次日到达', description = '赣州新大物流有限公司，专业从事赣州至广东（广州、佛山、中山、顺德）往返专线运输，自有车队，今天发货明天到达。' } = Astro.props;
+const { title = '赣州到广东物流专线_当天发货次日达 - 新大物流', description = '新大物流经营赣州、南康↔广州、佛山、中山、顺德物流专线，185+台车辆六城直营网点，当天发货次日到达，太平洋保险承保，南康家具运输专业包装。询价：15717088088' } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -42,12 +55,8 @@ const { title = '新大物流 — 赣州↔广东专线 · 当天发货 · 次�
     <!-- Canonical URL -->
     <link rel="canonical" href={`https://www.xinda56.cn${Astro.url.pathname}`} />
 
-    <!-- 预连接字体 -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <!-- Google Fonts: Noto Sans SC + Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <!-- 字体：使用系统字体栈（见 global.css --font-sans），不引用 Google Fonts，避免大陆访问阻塞首屏渲染 -->
 
     <!-- 结构化数据：Organization + LocalBusiness + WebSite -->
     <script is:inline type="application/ld+json" set:html={JSON.stringify([{
@@ -93,6 +102,7 @@ const { title = '新大物流 — 赣州↔广东专线 · 当天发货 · 次�
         "opens": "08:00",
         "closes": "18:00"
       },
+      "department": departments,
       "parentOrganization": {
         "@type": "Organization",
         "name": "赣州新大物流有限公司"

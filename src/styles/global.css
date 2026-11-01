@@ -27,7 +27,7 @@
   --color-warning: #FF7D00;
   --color-danger: #F53F3F;
 
-  --font-sans: 'Noto Sans SC', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: system-ui, -apple-system, "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", "Noto Sans SC", "Source Han Sans SC", sans-serif;
 }
 
 /* 基础样式 */
