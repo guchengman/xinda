@@ -11,6 +11,7 @@ const news = defineCollection({
     author: z.string().default('新大物流'),
     image: z.string().optional(),
     tags: z.array(z.string()).default([]),
+    faq: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
   }),
 });
 
