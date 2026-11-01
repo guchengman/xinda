@@ -88,7 +88,7 @@ import { COMPANY } from '../consts/company';
     <!-- 底部版权 -->
     <div class="mt-12 pt-8 border-t border-brand-800 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-surface-500">
       <p>&copy; {new Date().getFullYear()} {COMPANY.fullName}. All rights reserved.</p>
-      <p>{COMPANY.icp}</p>
+      {COMPANY.icp && <p>{COMPANY.icp}</p>}
     </div>
   </div>
 </footer>
