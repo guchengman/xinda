@@ -27,8 +27,8 @@ export const PHILOSOPHY = {
 
 // 核心数据
 export const STATS = [
-  { label: '服务车辆', value: '185+', suffix: '辆', icon: 'truck' },
-  { label: '直营网点', value: '6', suffix: '城直达', icon: 'network' },
+  { label: '服务车辆', value: '100+', suffix: '辆', icon: 'truck' },
+  { label: '直营网点', value: '6', suffix: '处直达', icon: 'network' },
   { label: '行业经验', value: '20+', suffix: '年', icon: 'experience' },
   { label: '客户满意', value: '99', suffix: '%', icon: 'satisfaction' },
 ] as const;
@@ -42,7 +42,7 @@ export const ADVANTAGES = [
   },
   {
     title: '网络覆盖',
-    desc: '赣州、南康、广州、佛山、中山、顺德六地直营网点，往返天天发车',
+    desc: '粤赣各3处直营网点：广州、佛山、顺德（覆盖中山）；赣州建材、红土地、南康，往返天天发车',
     icon: 'network',
   },
   {
@@ -126,7 +126,7 @@ export const BRANCHES = [
     contact: '曾先生',
   },
   {
-    city: '中山顺德',
+    city: '顺德',
     address: '佛山市顺德区容桂镇德丰物流园一期D05档（容桂客运站旁）',
     phone: '0757-29293868',
     contact: '刘先生',
@@ -144,7 +144,7 @@ export const BRANCHES = [
     contact: '许先生',
   },
   {
-    city: '赣州五龙',
+    city: '赣州红土地',
     address: '赣州市章贡区沙河镇323国道旁红土地物流园D4区05-07号',
     phone: '0797-8284800',
     contact: '蔡女士',
@@ -161,9 +161,9 @@ export const BRANCHES = [
 export const TIMELINE = [
   { year: '1998年', event: '开始经营广东物流落货业务' },
   { year: '2004年', event: '开始经营赣州—广东货运业务，奠定赣粤专线基础' },
-  { year: '2005-2008年', event: '逐步在广州、佛山、中山、顺德设立分公司，六地直营网络成型' },
+  { year: '2005-2008年', event: '逐步在广州、佛山、顺德设立分公司，中山纳入顺德覆盖，粤赣直营网络成型' },
   { year: '2011年', event: '赣州市南康区新大物流有限公司正式注册成立' },
-  { year: '2016-2018年', event: '购置8部大型货车，签约百余部社会车辆，运力大幅提升' },
+  { year: '2016-2018年', event: '扩充自有大型货车车队，签约百余部社会车辆，运力大幅提升' },
   { year: '2019-2023年', event: '各门市扩大门面仓库，完善管理制度，团队素质持续提升' },
   { year: '2024年至今', event: '持续改革扩展，致力于打造现代化的品牌物流企业' },
 ] as const;

@@ -74,7 +74,7 @@ export const LINES: LineInfo[] = [
     ],
     fromBranches: [
       { name: '新大物流（赣州总部）', address: COMPANY.headquarters, phone: COMPANY.hotline },
-      toBranchVO('赣州五龙'),
+      toBranchVO('赣州红土地'),
       toBranchVO('赣州建材'),
     ],
     toBranches: [toBranchVO('广州')],
@@ -82,7 +82,7 @@ export const LINES: LineInfo[] = [
       {
         title: '整车运输',
         desc: '赣州↔广州往返整车，天天发车准时准点',
-        points: ['自有8部大型货车、合约车辆百余部', '当天装车当天发运', '点对点直达，中途不中转', '可预约保险，全程无忧'],
+        points: ['自有大型货车5部、合约车辆百余部', '当天装车当天发运', '点对点直达，中途不中转', '可预约保险，全程无忧'],
       },
       {
         title: '零担配送',
@@ -118,7 +118,7 @@ export const LINES: LineInfo[] = [
     ],
     fromBranches: [
       { name: '新大物流（赣州总部）', address: COMPANY.headquarters, phone: COMPANY.hotline },
-      toBranchVO('赣州五龙'),
+      toBranchVO('赣州红土地'),
       toBranchVO('赣州建材'),
     ],
     toBranches: [toBranchVO('佛山')],
@@ -126,7 +126,7 @@ export const LINES: LineInfo[] = [
       {
         title: '整车运输',
         desc: '赣州↔佛山往返整车，天天发车准时准点',
-        points: ['自有8部大型货车、合约车辆百余部', '当天装车当天发运', '点对点直达，中途不中转'],
+        points: ['自有大型货车5部、合约车辆百余部', '当天装车当天发运', '点对点直达，中途不中转'],
       },
       {
         title: '零担配送',
@@ -162,15 +162,15 @@ export const LINES: LineInfo[] = [
     ],
     fromBranches: [
       { name: '新大物流（赣州总部）', address: COMPANY.headquarters, phone: COMPANY.hotline },
-      toBranchVO('赣州五龙'),
+      toBranchVO('赣州红土地'),
       toBranchVO('赣州建材'),
     ],
-    toBranches: [toBranchVO('中山顺德')],
+    toBranches: [toBranchVO('顺德')],
     services: [
       {
         title: '整车运输',
         desc: '赣州↔中山顺德往返整车，天天发车准时准点',
-        points: ['自有8部大型货车、合约车辆百余部', '当天装车当天发运', '点对点直达，中途不中转'],
+        points: ['自有大型货车5部、合约车辆百余部', '当天装车当天发运', '点对点直达，中途不中转'],
       },
       {
         title: '零担配送',
@@ -206,7 +206,7 @@ export const LINES: LineInfo[] = [
       { label: '询价热线', value: COMPANY.hotline },
     ],
     fromBranches: [toBranchVO('南康')],
-    toBranches: [toBranchVO('广州'), toBranchVO('佛山'), toBranchVO('中山顺德')],
+    toBranches: [toBranchVO('广州'), toBranchVO('佛山'), toBranchVO('顺德')],
     services: [
       {
         title: '家具专线运输',
