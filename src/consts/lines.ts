@@ -20,6 +20,7 @@ export interface LineInfo {
   dest: string;
   areaServed: string[];
   seoDesc: string;
+  image?: string;
   conclusion: string[];
   facts: { label: string; value: string }[];
   fromBranches: { name: string; address: string; phone: string }[];
@@ -55,6 +56,7 @@ const stdFaqs = (origin: string, dest: string): LineFaq[] => [
 export const LINES: LineInfo[] = [
   {
     slug: 'ganzhou-guangzhou',
+    image: '/images/xinda-ganzhou-guangzhou-line-sign.jpg',
     title: '赣州到广州物流专线',
     origin: '赣州',
     dest: '广州',
@@ -99,6 +101,7 @@ export const LINES: LineInfo[] = [
   },
   {
     slug: 'ganzhou-foshan',
+    image: '/images/xinda-hero-line-banner.jpg',
     title: '赣州到佛山物流专线',
     origin: '赣州',
     dest: '佛山',
@@ -143,6 +146,7 @@ export const LINES: LineInfo[] = [
   },
   {
     slug: 'ganzhou-zhongshan-shunde',
+    image: '/images/xinda-shunde-ganzhou-sign.jpg',
     title: '赣州到中山顺德物流专线',
     origin: '赣州',
     dest: '中山、顺德',
@@ -187,6 +191,7 @@ export const LINES: LineInfo[] = [
   },
   {
     slug: 'nankang-furniture-guangdong',
+    image: '/images/xinda-forklift-loading.jpg',
     title: '南康到广东家具运输专线',
     origin: '南康',
     dest: '广东（广州/佛山/中山/顺德）',

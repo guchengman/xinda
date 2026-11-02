@@ -69,6 +69,11 @@ const canonicalPath = `https://www.xinda56.cn/lines/${line.slug}/`;
         </a>
       </div>
     </div>
+    {line.image && (
+      <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+        <img src={line.image} alt="新大物流{line.title}直营网点实拍" loading="eager" class="w-full max-w-md md:max-w-lg mx-auto rounded-xl border border-white/15 shadow-lg" />
+      </div>
+    )}
   </section>
 
   <!-- 线路基本信息 -->
