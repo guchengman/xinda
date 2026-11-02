@@ -1,7 +1,7 @@
 // 公司基础信息
 export const COMPANY = {
   name: '新大物流',
-  fullName: '赣州新大物流有限公司',
+  fullName: '赣州开发区新大货运部',
   shortName: '新大物流',
   slogan: '踏踏实实做人，认认真真做事',
   desc: '赣州↔广东专线 · 当天发货 · 次日到达',
@@ -12,6 +12,9 @@ export const COMPANY = {
   icp: '',
   wechat: '新大物流',
   headquarters: '赣州经济技术开发区犹江路新大物流',
+  // 品牌主体结构：对外宣传以赣州开发区新大货运部为主，简称“新大物流”
+  brandOwner: '赣州开发区新大货运部',
+  affiliatedCompanies: ['赣州市南康区新大物流有限公司', '赣州鑫大物流有限公司'],
 } as const;
 
 // 服务理念

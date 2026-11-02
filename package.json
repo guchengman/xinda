@@ -1,7 +1,7 @@
 {
   "name": "xinda56",
   "version": "1.0.0",
-  "description": "赣州新大物流有限公司官方网站",
+  "description": "赣州开发区新大货运部（新大物流）官方网站",
   "type": "module",
   "scripts": {
     "dev": "astro dev",
