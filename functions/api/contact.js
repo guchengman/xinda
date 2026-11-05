@@ -50,7 +50,7 @@ export async function onRequest(context) {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            from: env.EMAIL_FROM || 'onboarding@resend.dev',
+            from: env.EMAIL_FROM || 'noreply@xinda56.cn',
             to: [env.EMAIL_TO || 'zengxiao@xinda56.cn'],
             subject: `新询价 - ${name} - ${phone}`,
             text,
@@ -58,7 +58,7 @@ export async function onRequest(context) {
         });
 
         const resBody = await res.text();
-        emailResult = { sent: res.ok, status: res.status, body: resBody, to: env.EMAIL_TO || 'zengxiao@xinda56.cn', from: env.EMAIL_FROM || 'onboarding@resend.dev' };
+        emailResult = { sent: res.ok, status: res.status, body: resBody, to: env.EMAIL_TO || 'zengxiao@xinda56.cn', from: env.EMAIL_FROM || 'noreply@xinda56.cn' };
 
         if (!res.ok) {
           console.error('Resend API error:', res.status, resBody);

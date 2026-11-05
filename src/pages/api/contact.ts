@@ -39,7 +39,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const env = (locals as any).runtime?.env || import.meta.env;
     const RESEND_API_KEY = env.RESEND_API_KEY;
     const EMAIL_TO = env.EMAIL_TO || 'zengxiao@xinda56.cn';
-    const EMAIL_FROM = env.EMAIL_FROM || 'onboarding@resend.dev';
+    const EMAIL_FROM = env.EMAIL_FROM || 'noreply@xinda56.cn';
 
     let emailResult: Record<string, unknown> = { sent: false, reason: 'RESEND_API_KEY not configured' };
 

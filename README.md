@@ -59,7 +59,7 @@ start.bat
 ```env
 RESEND_API_KEY=re_xxxxx
 EMAIL_TO=zengxiao@xinda56.cn
-EMAIL_FROM=onboarding@resend.dev
+EMAIL_FROM=noreply@xinda56.cn
 ```
 
 ## 联系表单
