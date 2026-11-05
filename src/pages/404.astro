@@ -1,0 +1,39 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="页面不存在（404） — 新大物流" description="您访问的页面不存在或已移动。可返回新大物流首页，或直接致电 15717088088 咨询赣州至广东物流专线。">
+  <!-- Hero -->
+  <section class="relative pt-20 md:pt-24 pb-12 md:pb-16 bg-brand-900 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-brand-700/40 to-brand-900"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 text-center">
+      <div class="text-6xl md:text-8xl font-bold text-white mb-4">404</div>
+      <h1 class="text-xl md:text-2xl font-bold text-white mb-3">页面不存在或已被移动</h1>
+      <p class="text-white/70 text-sm md:text-base max-w-xl mx-auto">您访问的地址没有找到对应内容，可能是链接过期或输入有误。</p>
+    </div>
+  </section>
+
+  <!-- 引导去向 -->
+  <section class="py-14 md:py-20 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid sm:grid-cols-3 gap-6 md:gap-8">
+        <a href="/" class="block bg-surface-50 rounded-2xl p-6 md:p-8 text-center border border-surface-100 hover:border-brand-200 transition-colors">
+          <h2 class="font-semibold text-surface-800 mb-2">返回首页</h2>
+          <p class="text-sm text-surface-500">了解新大物流赣粤专线服务</p>
+        </a>
+        <a href="/news/" class="block bg-surface-50 rounded-2xl p-6 md:p-8 text-center border border-surface-100 hover:border-brand-200 transition-colors">
+          <h2 class="font-semibold text-surface-800 mb-2">物流资讯</h2>
+          <p class="text-sm text-surface-500">运价、时效、家具运输指南</p>
+        </a>
+        <a href="/contact/" class="block bg-surface-50 rounded-2xl p-6 md:p-8 text-center border border-surface-100 hover:border-brand-200 transition-colors">
+          <h2 class="font-semibold text-surface-800 mb-2">联系我们</h2>
+          <p class="text-sm text-surface-500">粤赣六处直营网点地址与电话</p>
+        </a>
+      </div>
+      <div class="mt-10 text-center p-8 md:p-10 bg-surface-50 rounded-2xl border border-surface-100">
+        <p class="text-surface-500 text-sm mb-2">物流询价直达专线</p>
+        <a href="tel:15717088088" class="text-xl md:text-3xl font-bold text-brand-600">157-1708-8088</a>
+      </div>
+    </div>
+  </section>
+</Layout>
