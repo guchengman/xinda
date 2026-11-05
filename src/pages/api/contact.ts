@@ -52,15 +52,15 @@ export const POST: APIRoute = async ({ request, locals }) => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            from: EMAIL_FROM,
+            from: `新大物流官网 <${EMAIL_FROM}>`,
             to: [EMAIL_TO],
-            subject: `新询价 - ${name} - ${phone}`,
+            subject: `官网新询价｜${name}`,
             text,
           }),
         });
 
         const resBody = await res.text();
-        emailResult = { sent: res.ok, status: res.status, body: resBody, to: EMAIL_TO, from: EMAIL_FROM };
+        emailResult = { sent: res.ok, status: res.status, body: resBody, to: EMAIL_TO, from: `新大物流官网 <${EMAIL_FROM}>` };
 
         if (!res.ok) {
           console.error('Resend API error:', res.status, resBody);

@@ -50,15 +50,15 @@ export async function onRequest(context) {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            from: env.EMAIL_FROM || 'noreply@xinda56.cn',
+            from: `新大物流官网 <${env.EMAIL_FROM || 'noreply@xinda56.cn'}>`,
             to: [env.EMAIL_TO || 'zengxiao@xinda56.cn'],
-            subject: `新询价 - ${name} - ${phone}`,
+            subject: `官网新询价｜${name}`,
             text,
           }),
         });
 
         const resBody = await res.text();
-        emailResult = { sent: res.ok, status: res.status, body: resBody, to: env.EMAIL_TO || 'zengxiao@xinda56.cn', from: env.EMAIL_FROM || 'noreply@xinda56.cn' };
+        emailResult = { sent: res.ok, status: res.status, body: resBody, to: env.EMAIL_TO || 'zengxiao@xinda56.cn', from: `新大物流官网 <${env.EMAIL_FROM || 'noreply@xinda56.cn'}>` };
 
         if (!res.ok) {
           console.error('Resend API error:', res.status, resBody);
