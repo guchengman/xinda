@@ -10,3 +10,5 @@ dist/
 .claude/
 .codegraph/
 .memsearch/
+# 部署配置里的环境变量文件（含密钥，禁止入库）
+deploy/**/*.env

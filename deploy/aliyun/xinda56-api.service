@@ -1,0 +1,20 @@
+[Unit]
+Description=Xinda56 contact form API
+After=network.target
+
+[Service]
+Type=simple
+User=www
+Group=www
+WorkingDirectory=/www/wwwroot/xinda56-api
+EnvironmentFile=/etc/xinda56-api.env
+ExecStart=/usr/bin/node /www/wwwroot/xinda56-api/contact-server.js
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
