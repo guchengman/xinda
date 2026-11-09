@@ -38,7 +38,7 @@
 
 | 检查项 | 实测结果 | 对切换的影响 |
 |---|---|---|
-| **HSTS** | **未启用**（控制台无 max-age/preload 配置，按钮仍是「启用 HSTS」） | 切到 ECS 时即使暂无 HTTPS，浏览器也不会被强制中断 ✅ |
+| **HSTS** | **未启用**（控制台无 max-age/preload 配置，按钮仍是「启用 HSTS」；服务器侧实测 `curl -I https://www.xinda56.cn/` 响应头**无 `Strict-Transport-Security`**，两处双确认） | 切到 ECS 时即使暂无 HTTPS，浏览器也不会被强制中断 ✅ |
 | **始终使用 HTTPS** | **关闭**（开关 aria-checked=false） | CF 侧不会强制把 http 跳 https，切后 http 直达 ECS ✅ |
 | 自动 HTTPS 重写 | 关闭 | 无影响 |
 | 随机加密 / TLS 1.3 | 开启（仅 CF 边缘生效） | 灰云后自动失效，无影响 |
@@ -47,6 +47,10 @@
 | DNS 设置模式 | 完全（Full） | 无影响 |
 
 > 这三条是本次检查的核心：**HSTS 和「始终 HTTPS」都没开，所以"先切 DNS、再配证书"这个顺序是安全的**，不会出现用户浏览器被 HSTS 强制 https 而打不开站的死结。
+>
+> 实测佐证（2026-11-09 10:30 从 ECS 服务器侧访问线上 HTTPS）：
+> 响应头为 `HTTP/2 200`、`server: cloudflare`、`cf-ray: …-AMS`，
+> **无 `strict-transport-security` 头** —— 与控制台判断一致。
 
 ---
 
