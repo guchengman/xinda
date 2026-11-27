@@ -5,35 +5,52 @@
 
 ---
 
-## 〇、状态更新（2026-11-27 21:05）
+## 〇、执行结果（2026-11-27 21:35 —— 切换已完成）
 
 | 项目 | 状态 |
 |---|---|
-| **ICP 备案** | ✅ **已通过**：`赣ICP备2026032493号` |
-| **页脚备案号** | ✅ 已填入 `src/consts/company.ts` 的 `icp` 字段，构建后首页渲染确认（`beian.miit.gov.cn` 链接正常） |
-| **新版站点** | ✅ 已部署到 ECS `/www/wwwroot/xinda56`（首页 200/45911 字节，32 个 HTML，68 文件） |
-| **自动备份** | ✅ 修复（脚本执行位曾被去掉，cron 从 11-11 起连续 17 天 `Permission denied`；已 `chmod 755` 并试跑通过） |
-| **DNS** | ⏳ **仍指向 Cloudflare**（`104.21.73.48` / `172.67.140.151`），尚未切换 |
-| **ECS 443** | ⚠️ **已被占用**，见下方「关键阻断项」 |
+| **ICP 备案** | ✅ `赣ICP备2026032493号` |
+| **页脚备案号** | ✅ 已渲染，链接 `beian.miit.gov.cn` |
+| **新版站点** | ✅ `/www/wwwroot/xinda56`（首页 200/45911，32 个 HTML） |
+| **自动备份** | ✅ 已修复执行位（cron 11-11 至 11-27 曾连续 17 天 `Permission denied`） |
+| **TLS 证书** | ✅ `/etc/letsencrypt/live/xinda56.cn/`，SAN 含 www，到期 2027-02-25，续期方式已改为 `webroot` |
+| **ECS 443** | ✅ 新建 `xinda56-https.conf`，SNI 隔离验证通过（未影响 MeshCentral / workbench） |
+| **强制 HTTPS** | ✅ `https-redirect.conf`：80 → 301，放行 `/.well-known/` 供续签 |
+| **DNS** | ✅ **已切换**：apex 改为 `A 8.163.60.184`（仅 DNS），www 保持 `CNAME → xinda56.cn`（仅 DNS） |
+| **临时 TXT** | ✅ 两条 `_acme-challenge` 已删除 |
 
-### ⚠️ 关键阻断项：443 默认站点是 MeshCentral
+### 切换前发现的阻断项（已规避）
 
-实测（2026-11-27 21:05，服务器侧 SNI 探测）：
+实测：443 的默认 server 是 `meshcentral.conf`，而 `xinda56.cn` **没有任何 443 server 块**。
+`openssl s_client -servername xinda56.cn` 返回 `CN = remote.xinda56.site`，
+带 Host 访问 443 得到的是 MeshCentral 登录页（200 / 76024 字节）。
 
-```
-openssl s_client -connect 127.0.0.1:443 -servername xinda56.cn
-→ subject = CN = remote.xinda56.site
-→ 带 Host 访问返回 200 / 76024 字节，内容是 MeshCentral 登录页
-```
+若直接切 DNS，会同时出现**证书错误**和**内部管理后台暴露**。
+因此按「先签证书 → 先配 443 → 再切 DNS」执行，切换后无任何窗口期。
 
-原因：443 的默认 server 是 `meshcentral.conf`（`nginx -T` 中第一个 443 server），
-而我们的 `xinda56.cn` **没有任何 443 server 块**。
+### 实际执行顺序
 
-**后果**：如果现在直接切 DNS，所有 `https://xinda56.cn` 访问会：
-1. 拿到 `remote.xinda56.site` 的证书 → 浏览器红色证书错误
-2. 强行跳过后看到**内部远程管理系统的登录页**（对外暴露，不可接受）
+1. `certbot certonly --manual --preferred-challenges dns` 走 DNS-01 签证书（此阶段 DNS 仍指向 Cloudflare，HTTP-01 不可用）
+2. 在 Cloudflare 加 2 条 `_acme-challenge` TXT，验证通过
+3. 新建 `/www/server/panel/vhost/nginx/xinda56-https.conf`（**不能放 extension 目录**，见下方坑 1）
+4. `nginx -t` → reload → `curl --resolve` 本地验证 200/45911
+5. Cloudflare 改 apex 为 `A 8.163.60.184` + 关闭代理；www 同样关闭代理
+6. 公网 DNS 生效（阿里 223.5.5.5、Google 8.8.8.8 均返回 `8.163.60.184`）
+7. 线上全链路验证：各页面 200、证书 `Verify return code: 0`
+8. `certbot certonly --webroot` 重签一次，把续期从 manual 改为可无人值守的 webroot
+9. 配 80 → 301 强制跳转（放行 `/.well-known/`）
+10. 删除两条临时 TXT
 
-**因此切换顺序必须调整：先签证书、先配 443，再切 DNS。** 详见第七节。
+### 本轮新增的两个坑
+
+**坑 1：443 的 server 块不能放进 `extension/` 目录。**
+`8.163.60.184.conf` 里有 `include .../extension/8.163.60.184/*.conf;`，完整的 `server {}`
+被 include 进另一个 server 会触发嵌套语法错误。正确位置是同级的
+`/www/server/panel/vhost/nginx/xinda56-https.conf`（由 `include .../vhost/nginx/*.conf` 加载）。
+
+**坑 2：Cloudflare 编辑表单的保存有 5–10 秒延迟。**
+点"保存"后约 5–10 秒表格才更新，4 秒内读取会看到旧值，容易误判成保存失败。
+另外 CF 的 DNS 表是 ARIA 虚拟列表，DOM 里没有 `table/tr`，只能读 `[role="row"]`。
 
 ---
 
@@ -171,71 +188,65 @@ www.xinda56.cn          → 改回  CNAME  xinda56.cn          代理：开（�
 
 ---
 
-## 七、切换成功后立刻要做的三件事
+## 七、已落地的配置（切换后现状，供维护参考）
 
-### 7.1 证书（⚠️ 已调整为「切 DNS 之前」完成）
+### 7.1 证书
 
-因为 443 默认站点是 MeshCentral（见第〇节），**必须在切 DNS 之前就把证书和 443 server 块准备好**，
-否则切换后会出现证书错误 + 暴露内部管理页的窗口。
+- 位置：`/etc/letsencrypt/live/xinda56.cn/`（`fullchain.pem` / `privkey.pem`）
+- SAN：`xinda56.cn`、`www.xinda56.cn`；到期 **2027-02-25**
+- 首次签发走 DNS-01（在 Cloudflare 加 2 条 `_acme-challenge` TXT，签完已删除）
+- 随后用 `--webroot` 重签一次，`/etc/letsencrypt/renewal/xinda56.cn.conf` 现为：
 
-**推荐顺序（零窗口）**：
+  ```
+  authenticator = webroot
+  webroot_path = /www/wwwroot/xinda56,
+  ```
 
-1. **DNS-01 验证签证书**（此时 DNS 还指向 Cloudflare，HTTP-01 走不通，只能用 DNS-01）
-   ```bash
-   certbot certonly --manual --preferred-challenges dns \
-     -d xinda56.cn -d www.xinda56.cn
-   ```
-   按提示在 Cloudflare 加两条 `_acme-challenge` TXT（TTL 设最短），等验证通过。
-   证书落到 `/etc/letsencrypt/live/xinda56.cn/`。
+  → certbot 定时任务可无人值守续期。`/.well-known/acme-challenge/` 已验证可达（200）
 
-2. **新建 443 server 块**（独立文件，不碰 workbench/meshcentral）
-   `/www/server/panel/vhost/nginx/extension/8.163.60.184/https.conf`
-   ```nginx
-   server {
-       listen 443 ssl;
-       http2 on;
-       server_name xinda56.cn www.xinda56.cn;
-       root /www/wwwroot/xinda56;
-       ssl_certificate     /etc/letsencrypt/live/xinda56.cn/fullchain.pem;
-       ssl_certificate_key /etc/letsencrypt/live/xinda56.cn/privkey.pem;
-       include /www/server/panel/vhost/nginx/extension/8.163.60.184/api.conf;
-       error_page 404 /404.html;
-       include enable-php-00.conf;
-       # 敏感文件/目录禁访规则与 80 端口那份保持一致
-       location ~ .*\.(gif|jpg|jpeg|png|bmp|swf)$ { expires 30d; }
-       location ~ .*\.(js|css)?$ { expires 12h; }
-       access_log /www/wwwlogs/8.163.60.184.https.log;
-       error_log  /www/wwwlogs/8.163.60.184.https.error.log;
-   }
-   ```
-   注意：**不能写 `default_server`**，否则会抢走 MeshCentral/workbench 的默认地位。
+### 7.2 443 server 块
 
-3. `nginx -t` → `nginx -s reload` → 用 `curl --resolve` 本地验证：
-   ```bash
-   curl -sS -o /dev/null -w "%{http_code}\n" --resolve www.xinda56.cn:443:127.0.0.1 https://www.xinda56.cn/
-   ```
+文件：`/www/server/panel/vhost/nginx/xinda56-https.conf`（**不在 extension 目录**）
 
-4. 之后切 DNS（第三节），切完 `https` 直接可用，无窗口。
+- `listen 443 ssl;` + `http2 on;`，`server_name xinda56.cn www.xinda56.cn;`
+- 证书指向 7.1 那套；`include .../extension/8.163.60.184/api.conf;` 复用表单反代
+- 敏感文件/目录禁访规则与 80 端口保持一致
+- **没有 `default_server`**，所以不影响 MeshCentral 与 workbench 的默认地位
+- 日志：`/www/wwwlogs/xinda56-https.log`
 
-5. **切完后再重签一次走 webroot**（让自动续期生效）：
-   ```bash
-   certbot certonly --webroot -w /www/wwwroot/xinda56 --force-renewal \
-     -d xinda56.cn -d www.xinda56.cn
-   ```
-   此时 80 端口已可达，续期就能全自动。
+SNI 隔离实测（2026-11-27）：
 
-### 7.2 强制 HTTPS
+| SNI | 返回证书 | 结果 |
+|---|---|---|
+| `xinda56.cn` | `CN = xinda56.cn` | ✅ |
+| `www.xinda56.cn` | `CN = xinda56.cn` | ✅ |
+| `remote.xinda56.site` | `CN = remote.xinda56.site` | 未受影响 ✅ |
+| `xinda56.site` | `CN = xinda56.site` | 未受影响 ✅ |
 
-在 80 端口的 vhost 里加 301（或宝塔「强制 HTTPS」开关）。CF 侧的「始终使用 HTTPS」已确认关闭，
-不会叠加。
+### 7.3 强制 HTTPS
 
-### 7.3 备案号
+文件：`/www/server/panel/vhost/nginx/extension/8.163.60.184/https-redirect.conf`（被 80 的 server include）
 
-1. ✅ **页脚 ICP 备案号——已完成**（2026-11-27）
-   实际改的是 `src/consts/company.ts` 的 `icp` 字段（不是文档早先写的 `Layout.astro`），
-   `Footer.astro` 已支持自动渲染并链接 `https://beian.miit.gov.cn/`
-2. ⏳ **公安联网备案**：ICP 通过后 30 日内需办理。`company.ts` 的 `police` 字段已预留，
-   填写如 `赣公网安备 36070202001234 号` 即自动显示并生成查询链接。
+```nginx
+set $xd_https 0;
+if ($host = "www.xinda56.cn") { set $xd_https 1; }
+if ($host = "xinda56.cn") { set $xd_https 1; }
+if ($uri ~ "^/\.well-known/") { set $xd_https 0; }
+if ($xd_https = 1) { return 301 https://$host$request_uri; }
+```
+
+- 只对两个域名生效；**直接用 IP 访问不跳转**（保留调试入口）
+- 放行 `/.well-known/`，否则会打断 certbot 续期
+
+实测：`http://www.xinda56.cn/` → 301 → `https://www.xinda56.cn/`；`http://xinda56.cn/` → 301；`http://8.163.60.184/` → 200
+
+### 7.4 备案号
+
+1. ✅ **ICP**：`src/consts/company.ts` 的 `icp` 字段 = `赣ICP备2026032493号`，
+   `Footer.astro` 自动渲染并链接 `https://beian.miit.gov.cn/`
+2. ⏳ **公安联网备案**：ICP 通过后 30 日内需办理（约 2026-12-27 前）。
+   `police` 字段已预留，填 `赣公网安备 36070202001234 号` 这类格式即自动生成
+   `beian.mps.gov.cn` 查询链接
 
 ---
 
@@ -260,8 +271,8 @@ www.xinda56.cn          → 改回  CNAME  xinda56.cn          代理：开（�
 | 站点根目录 | `/www/wwwroot/xinda56`（6.4M，68 个文件 / 32 个 HTML）**已是最新版** |
 | 表单 API | `xinda56-api` 服务 active+enabled，`/api/health` 200 |
 | 页脚备案号 | ✅ 已渲染 `赣ICP备2026032493号` |
-| **443** | ⚠️ **监听中，但是 `xinda56.site`(workbench) 与 `remote.xinda56.site`(MeshCentral) 在用；`xinda56.cn` 无自己的 443 server 块，无证书** |
-| 证书 | 现有两套 Let's Encrypt：`xinda56.site`、`remote.xinda56.site`（均不含 xinda56.cn） |
+| **443** | ✅ `xinda56-https.conf` 已上线；MeshCentral（`remote.xinda56.site`）与 workbench（`xinda56.site`）的 443 互不影响 |
+| 证书 | `xinda56.cn`（SAN 含 www，到期 2027-02-25，webroot 续期）；另有 `xinda56.site`、`remote.xinda56.site` 两套 |
 | certbot | 已安装 `/usr/bin/certbot` |
 | 同机其他服务 | workbench（`xinda56.site`，80 的 default_server，未匹配 Host 返回 444）、MeshCentral（`remote.xinda56.site`，443 默认） |
 | 自动备份 | ✅ 每天 03:30，保留 14 天（11-27 已修复执行位并试跑成功） |
@@ -270,17 +281,31 @@ www.xinda56.cn          → 改回  CNAME  xinda56.cn          代理：开（�
 
 ---
 
-## 十、切换当天的操作顺序（2026-11-27 修订版）
+## 十、切换执行记录（2026-11-27 21:30 完成）
 
 ```
 【切之前】DNS-01 签证书 → 建 443 server 块 → nginx -t/reload → --resolve 本地验证通过
         ↓
-【切】改 apex 为 A 8.163.60.184 灰云 → 改 www 为 A 8.163.60.184 灰云 → 等 1~5 分钟
+【切】apex CNAME pages.dev → A 8.163.60.184（仅 DNS）；www 关闭代理 → 等 1~5 分钟
         ↓
-【验】Resolve-DnsName 查解析 → 页面 200 → 表单真发一封 → https 无证书错误
+【验】223.5.5.5 / 8.8.8.8 均返回 8.163.60.184 → 全站 200 → 证书 verify=0 → 备案号在页脚
         ↓
-【收】强制 HTTPS → webroot 重签启用自动续期 → 监控 30 分钟
+【收】webroot 重签 → 强制 HTTPS（301）→ 删除临时 TXT → 监控
 ```
+
+**实测结果**
+
+| 项 | 值 |
+|---|---|
+| 解析 | `xinda56.cn` / `www.xinda56.cn` → `8.163.60.184`（阿里 223.5.5.5、Google 8.8.8.8） |
+| 首页 | 200 / 45911 字节 |
+| about / services / news / contact / 线路页 | 200（36530 / 43124 / 44925 / 34180 / 34228） |
+| 404 | 404 / 19415 |
+| `/api/health` | 200 |
+| 静态 CSS | 200 / 40887 |
+| 证书校验 | `Verify return code: 0 (ok)`，issuer = Let's Encrypt |
+| 页脚备案号 | ✅ `赣ICP备2026032493号` + 工信部链接 |
+| 强制跳转 | `http://www` → 301 → `https://www` |
 
 > ⚠️ 与 11-09 版本的差别：**证书必须在切 DNS 之前签好**。
 > 原因是 443 默认站点是 MeshCentral，先切会暴露内部管理页。
