@@ -1,0 +1,2 @@
+$TTL 600
+xinda56.cn. 600 IN TXT "v=spf1 include:spf.mxhichina.com ~all"

@@ -80,10 +80,10 @@ dns22.hichina.com
    NS 已在阿里云，继续往 Cloudflare API 写记录**不再生效**，家宽 IP 一变这些子域就失联。
    需把 DDNS 客户端改为阿里云（DDNS-GO 支持阿里云 AccessKey，或用阿里云 SDK 自写）。
 
-2. **主域缺 SPF**
-   apex 目前没有 SPF 记录。阿里云企业邮箱发信时，建议补：
-   `xinda56.cn  TXT  "v=spf1 include:spf.mxhichina.com ~all"`
-   Resend 的 SPF 在 `send.` 子域，两者不冲突。
+2. ~~主域缺 SPF~~ **已补（2026-11-27）**
+   apex 已添加 `xinda56.cn  TXT  "v=spf1 include:spf.mxhichina.com ~all"`（TTL 600）。
+   权威 dns21、223.5.5.5、8.8.8.8 三处均已验证返回。Resend 的 SPF 在 `send.` 子域，两者不冲突。
+   补丁文件：`spf-patch.zone`（单条 TXT），经批量导入写入。
 
 3. **Cloudflare zone 保留**
    不删。它是唯一一份现成的完整备份，回滚时把 NS 改回
@@ -95,3 +95,17 @@ dns22.hichina.com
 
 云解析里记录不可用时，最快的回滚是域名控制台 DNS 修改，换回 Cloudflare 的两条 NS。
 Cloudflare 上的记录保持原样（apex A 8.163.60.184、www CNAME），回滚后解析结果与当前一致。
+
+## 八、操作备注（踩坑）
+
+阿里云新版云解析的「添加记录」弹层有两个坑：
+
+- 主机记录输入框聚焦后会弹出说明浮层，把下方「记录值」输入框挡住，点击时报 `obscured`。
+  先点弹层标题空白处关掉浮层，再输入记录值。
+- 通过脚本直接给记录值输入框赋值（JS setter）不会同步 React 内部 state，
+  点「确定」会**静默失败**——页面不报错、记录数不变、也没有任何提示。
+  必须用真实键入，或者干脆走批量导入。
+
+**结论：批量导入 zone 文件是最可靠的写入路径**，单条变更也可以用一个只含一条记录的
+zone 文件走导入（`spf-patch.zone` 就是这么加的）。
+导入时选「跳过重复记录，仅导入新数据」。
