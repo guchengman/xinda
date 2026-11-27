@@ -1,0 +1,27 @@
+; xinda56.cn zone - migrated from Cloudflare 2026-11-27
+$TTL 600
+xinda56.cn. 600 IN A 8.163.60.184
+www.xinda56.cn. 600 IN CNAME xinda56.cn.
+zengxiao.xinda56.cn. 600 IN A 115.150.69.127
+zengxiao.xinda56.cn. 600 IN AAAA 240e:370:49e0:5290::1004
+cd2.xinda56.cn. 600 IN CNAME zengxiao.xinda56.cn.
+clash.xinda56.cn. 600 IN CNAME zengxiao.xinda56.cn.
+cloudsaver.xinda56.cn. 600 IN CNAME zengxiao.xinda56.cn.
+ddns.xinda56.cn. 600 IN CNAME zengxiao.xinda56.cn.
+files.xinda56.cn. 600 IN CNAME zengxiao.xinda56.cn.
+ha.xinda56.cn. 600 IN CNAME zengxiao.xinda56.cn.
+istore.xinda56.cn. 600 IN CNAME zengxiao.xinda56.cn.
+jellyfin.xinda56.cn. 600 IN CNAME zengxiao.xinda56.cn.
+kuma.xinda56.cn. 600 IN CNAME zengxiao.xinda56.cn.
+router.xinda56.cn. 600 IN CNAME zengxiao.xinda56.cn.
+tv.xinda56.cn. 600 IN CNAME zengxiao.xinda56.cn.
+mail.xinda56.cn. 600 IN CNAME mail.mxhichina.com.
+pop3.xinda56.cn. 600 IN CNAME pop3.mxhichina.com.
+smtp.xinda56.cn. 600 IN CNAME smtp.mxhichina.com.
+xinda56.cn. 600 IN MX 5 mxn.mxhichina.com.
+xinda56.cn. 600 IN MX 10 mxw.mxhichina.com.
+send.xinda56.cn. 600 IN MX 10 feedback-smtp.us-east-1.amazonses.com.
+send.xinda56.cn. 600 IN TXT "v=spf1 include:amazonses.com ~all"
+rsend.xinda56.cn. 600 IN CNAME send.forge.rmta.net.
+resend._domainkey.xinda56.cn. 600 IN TXT "p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDUY0GsmNfo0BcamhCJku8rpRf9viuSUqgC1YnfhraxxP3Z3cTlBPfiMHWi7123sDk91VMe04COinfU6xC/Fl4QMbTuZkFQfzQHlkYrfkGff7sfZ8guPrPiMYx13BhU2xBvZPnwsgH6apIU9oEV9eEZe0LjP+wfYJHRNu0jfhjlrwIDAQAB"
+_dmarc.xinda56.cn. 600 IN TXT "v=DMARC1; p=none; rua=mailto:zengxiao@xinda56.cn"
