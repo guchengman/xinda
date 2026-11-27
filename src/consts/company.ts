@@ -8,8 +8,8 @@ export const COMPANY = {
   hotline: '15717088088',
   domain: 'xinda56.cn',
   email: 'zengxiao@xinda56.cn',
-  // ICP 备案号：拿到真实备案号后填入此处，页脚会自动显示（当前海外托管暂不展示）
-  icp: '',
+  // ICP 备案号：已取得，页脚自动显示并链接工信部备案查询
+  icp: '赣ICP备2026032493号',
   // 公安联网备案号：公安备案下号后填入此处（如 '赣公网安备 36070202001234 号'），页脚自动显示并生成备案查询链接
   police: '' as string,
   wechat: '新大物流',
