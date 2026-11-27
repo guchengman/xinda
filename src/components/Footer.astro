@@ -88,7 +88,16 @@ import { COMPANY } from '../consts/company';
     <!-- 底部版权 -->
     <div class="mt-12 pt-8 border-t border-brand-800 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-surface-500">
       <p>&copy; {new Date().getFullYear()} {COMPANY.fullName}. All rights reserved.</p>
-      {COMPANY.icp && <p>{COMPANY.icp}</p>}
+      {(COMPANY.icp || COMPANY.police) && (
+        <div class="flex flex-wrap items-center justify-center md:justify-end gap-x-4 gap-y-2">
+          {COMPANY.icp && (
+            <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener nofollow" class="hover:text-brand-400 transition-colors">{COMPANY.icp}</a>
+          )}
+          {COMPANY.police && (
+            <a href={`https://beian.mps.gov.cn/#/query/webSearch?code=${COMPANY.police.replace(/\D/g, '')}`} target="_blank" rel="noopener nofollow" class="hover:text-brand-400 transition-colors">{COMPANY.police}</a>
+          )}
+        </div>
+      )}
     </div>
   </div>
 </footer>
